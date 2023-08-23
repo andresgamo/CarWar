@@ -25,8 +25,8 @@ class Deck:
 
     def generateDeck(self) -> list:
         deck = []
-        for suit in self.suits:
-            for rank in self.ranks:
+        for suit in Deck.suits:
+            for rank in Deck.ranks:
                 card = Card(rank,suit)
                 deck.append(card)
         return deck
