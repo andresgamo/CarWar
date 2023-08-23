@@ -2,7 +2,7 @@
 
 Welcome to the Car War Game repository! This project is an exciting two-player game implemented in Python 3, where players control virtual cars and engage in a battle to outmaneuver and defeat their opponent.
 
-## Table of Contents
+## Table of Contents 
 
 - [Game Overview](#game-overview)
 - [Installation](#installation)
