@@ -2,7 +2,7 @@ import random
 
 class Card:
 
-    values = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 11, 'Q': 12, 'K':13, 'A':14}
+    values = {'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'J':11,'Q':12,'K':13,'A':14}
 
     def __init__(self, rank, suit):
 
@@ -16,12 +16,11 @@ class Card:
 
 class Deck:
 
-    ranks =  ['2', '3', '4', '5', '6', '7', '8', '9','10', 'J', 'Q', 'K', 'A']
+    ranks = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
     suits = ['♣','♦','♥','♠']
 
     def __init__(self) -> None:
-       self.cards = self.generate_deck()
-
+        self.cards = self.generate_deck()
 
     def generate_deck(self) -> list:
         '''Generates a full deck of cards.'''
@@ -31,19 +30,18 @@ class Deck:
                 card = Card(rank,suit)
                 deck.append(card)
         return deck
-    
-    def showDeck (self) -> None:
+
+    def show_deck(self) -> None:
         '''Shows in console the cards that are on the pit.'''
         for card in self.cards:
             print(card)
-    
+
     def shuffle(self) -> None:
         '''Shuffles the deck of cards'''
         random.shuffle(self.cards)
-    
+
     def __str__(self) -> str:
         return f'{len(self.cards)}'
-    
 
 if __name__ == '__main__':
     deck = Deck()
