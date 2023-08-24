@@ -23,7 +23,7 @@ class Deck:
        self.cards = self.generateDeck()
 
 
-    def generateDeck(self) -> list:
+    def generate_deck(self) -> list:
         deck = []
         for suit in Deck.suits:
             for rank in Deck.ranks:
