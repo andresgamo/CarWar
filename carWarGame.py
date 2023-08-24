@@ -19,11 +19,12 @@ class Deck:
     ranks =  ['2', '3', '4', '5', '6', '7', '8', '9','10', 'J', 'Q', 'K', 'A']
     suits = ['♣','♦','♥','♠']
 
-    def __init__(self):
-       self.cards = self.generateDeck()
+    def __init__(self) -> None:
+       self.cards = self.generate_deck()
 
 
     def generate_deck(self) -> list:
+        '''Generates a full deck of cards.'''
         deck = []
         for suit in Deck.suits:
             for rank in Deck.ranks:
@@ -31,11 +32,13 @@ class Deck:
                 deck.append(card)
         return deck
     
-    def showDeck (self):
+    def showDeck (self) -> None:
+        '''Shows in console the cards that are on the pit.'''
         for card in self.cards:
             print(card)
     
-    def shuffle(self):
+    def shuffle(self) -> None:
+        '''Shuffles the deck of cards'''
         random.shuffle(self.cards)
     
     def __str__(self) -> str:
