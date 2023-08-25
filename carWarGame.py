@@ -24,12 +24,7 @@ class Deck:
 
     def generate_deck(self) -> list:
         '''Generates a full deck of cards.'''
-        deck = []
-        for suit in Deck.suits:
-            for rank in Deck.ranks:
-                card = Card(rank,suit)
-                deck.append(card)
-        return deck
+        return [Card(rank, suit) for suit in self.suits for rank in self.ranks]
 
     def show_deck(self) -> None:
         '''Shows in console the cards that are on the pit.'''
@@ -45,4 +40,4 @@ class Deck:
 
 if __name__ == '__main__':
     deck = Deck()
-    deck.showDeck()
+    deck.show_deck()
