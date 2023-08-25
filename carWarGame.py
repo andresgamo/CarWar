@@ -11,8 +11,7 @@ class Card:
         self.value = Card.values[self.rank]
 
     def __str__(self) -> str:
-        return f'{self.rank}{self.suit}{self.value}'
-
+        return f'{self.rank}{self.suit}'
 
 class Deck:
 
@@ -38,6 +37,38 @@ class Deck:
     def __str__(self) -> str:
         return f'{len(self.cards)}'
 
+class Player:
+
+    def __init__(self, name, cards):
+        self.name = name
+        self.cards = cards
+
+    def show_deck(self) -> None:
+        '''Displays all player's hand in console.'''
+        for card in self.cards:
+            print(card)
+
+    def bet(self) -> Card:
+        '''Remove the top card from player's hand and return it'''
+        return self.cards.pop(0)
+
+    def add_cards (self, cards_pit:list) -> None:
+        '''Add cards from pit to the bottom of the player's hand'''
+        for card in cards_pit:
+            self.cards.append(card)
+
+    def __str__(self) -> str:
+        return f'Name: {self.name}\nCards: {self.cards} '
+
 if __name__ == '__main__':
-    deck = Deck()
-    deck.show_deck()
+    # deck = Deck()
+    # deck.shuffle()
+    # player1 = Player('player1',deck.cards[:int(len(deck.cards)/2)])
+    # player2 = Player('player2',deck.cards[int(len(deck.cards)/2):])
+    # player1.showDeck()
+    # print(len(player1.cards))
+    # print('\n')
+    # player1.addCards([player1.bet()])
+    # player1.showDeck()
+    # print(len(player1.cards))
+    pass
