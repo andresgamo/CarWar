@@ -52,7 +52,7 @@ class Player:
         '''Remove the top card from player's hand and return it'''
         return self.cards.pop(0)
 
-    def add_cards (self, cards_pit:list) -> None:
+    def add_cards(self, cards_pit:list) -> None:
         '''Add cards from pit to the bottom of the player's hand'''
         for card in cards_pit:
             self.cards.append(card)
@@ -60,7 +60,12 @@ class Player:
     def __str__(self) -> str:
         return f'Name: {self.name}\nCards: {self.cards} '
 
+def greetings() -> None:
+    '''Diplay welcome message to players'''
+    print('Welcome to CarWar game... Rise your bets!')
+
 if __name__ == '__main__':
+    greetings()
     # deck = Deck()
     # deck.shuffle()
     # player1 = Player('player1',deck.cards[:int(len(deck.cards)/2)])
