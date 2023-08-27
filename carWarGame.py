@@ -61,11 +61,42 @@ class Player:
         return f'Name: {self.name}\nCards: {self.cards} '
 
 def greetings() -> None:
-    '''Diplay welcome message to players'''
+    '''Diplay welcome message to players.'''
     print('Welcome to CarWar game... Rise your bets!')
+
+def get_users_name() -> list:
+    '''Display message asking for user's name.'''
+    players_name = []
+    
+    for player in range(1,3):
+
+        while True:
+            player_name = input(f'Player{player}, enter name (alphanum only): ')
+            if not player_name.isalnum():
+                print('Please enter valid name (alphanum only).')
+            else:
+                players_name.append(player_name)
+                break
+
+    return players_name
 
 if __name__ == '__main__':
     greetings()
+    player1, player2 = get_users_name()
+    print(player1, player2)
+
+
+
+    # options = ['1','2'] 
+    # while True:
+    #     opt = input('Select an option:\n1. Enter name.\n2. Exit Game.')
+    #     if opt in options:
+    #         player1, player2 = ask_user_names()
+    #         break
+    #     else:
+    #         print('Please enter valid option.')
+    
+    
     # deck = Deck()
     # deck.shuffle()
     # player1 = Player('player1',deck.cards[:int(len(deck.cards)/2)])
