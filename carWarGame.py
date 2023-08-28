@@ -60,14 +60,24 @@ class Player:
     def __str__(self) -> str:
         return f'Name: {self.name}\nCards: {self.cards} '
 
-def greetings() -> None:
-    '''Diplay welcome message to players.'''
+def greet_and_start() -> bool:
+    '''Diplay welcome message to players and ask whether want to start or exit.'''
+
+    options = {'1': True, '2':False}
+
     print('Welcome to CarWar game... Rise your bets!')
+
+    while True:
+        opt = input('Select an option:\n1. Start.\n2. Exit.\n').strip()
+        if opt in options:
+            return options[opt]
+        else:
+            print('Please enter valid option.')
 
 def get_users_name() -> list:
     '''Display message asking for user's name.'''
     players_name = []
-    
+
     for player in range(1,3):
 
         while True:
@@ -81,7 +91,8 @@ def get_users_name() -> list:
     return players_name
 
 if __name__ == '__main__':
-    greetings()
+    start = greet_and_start()
+    print(start)
     player1, player2 = get_users_name()
     print(player1, player2)
 
