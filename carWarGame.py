@@ -75,7 +75,7 @@ class Player:
             self.cards.append(card)
 
     def __str__(self) -> str:
-        return f"Name: {self.name}\nCards: {self.cards} "
+        return f"{self.name.capitalize()} has {self.cards} cards."
 
 
 if __name__ == "__main__":
