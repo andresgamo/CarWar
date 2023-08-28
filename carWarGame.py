@@ -82,20 +82,21 @@ def get_users_name() -> list:
 
         while True:
             player_name = input(f'Player{player}, enter name (alphanum only): ')
-            if not player_name.isalnum():
-                print('Please enter valid name (alphanum only).')
-            else:
+            if player_name.isalnum():
                 players_name.append(player_name)
                 break
+            else:
+                print('Please enter valid name (alphanum only).')
 
     return players_name
 
 if __name__ == '__main__':
     start = greet_and_start()
-    print(start)
-    player1, player2 = get_users_name()
-    print(player1, player2)
-
+    if start:
+        player1, player2 = get_users_name()
+        print(player1, player2)
+    else:
+        print('Hope to see you soon.')
 
 
     # options = ['1','2'] 
