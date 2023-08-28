@@ -58,7 +58,7 @@ class Player:
             self.cards.append(card)
 
     def __str__(self) -> str:
-        return f'Name: {self.name}\nCards: {self.cards} '
+        return f'{self.name.capitalize()} has {len(self.cards)} cards.'
 
 def greet_and_start() -> bool:
     '''Diplay welcome message to players and ask whether want to start or exit.'''
@@ -90,16 +90,24 @@ def get_users_name() -> list:
 
     return players_name
 
+def deal_and_player_instantiation(p1_name:str, p2_name:str, deck:Card) -> tuple[Player, Player]:
+    '''Instantiate class players and deal cards from deck.'''
+    deck.shuffle()
+    half_deck = int(len(deck.cards)/2)
+    return Player(p1_name,deck.cards[:half_deck]), Player(p2_name,deck.cards[half_deck:])
+
 if __name__ == '__main__':
     start = greet_and_start()
     if start:
-        player1, player2 = get_users_name()
+        p1_name, p2_name = get_users_name()
+        deck = Deck()
+        player1, player2 = deal_and_player_instantiation(p1_name, p2_name, deck)
         print(player1, player2)
     else:
         print('Hope to see you soon.')
 
 
-    # options = ['1','2'] 
+    # options = ['1','2']
     # while True:
     #     opt = input('Select an option:\n1. Enter name.\n2. Exit Game.')
     #     if opt in options:
@@ -107,8 +115,8 @@ if __name__ == '__main__':
     #         break
     #     else:
     #         print('Please enter valid option.')
-    
-    
+
+
     # deck = Deck()
     # deck.shuffle()
     # player1 = Player('player1',deck.cards[:int(len(deck.cards)/2)])
@@ -119,4 +127,3 @@ if __name__ == '__main__':
     # player1.addCards([player1.bet()])
     # player1.showDeck()
     # print(len(player1.cards))
-    pass
