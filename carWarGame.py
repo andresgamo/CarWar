@@ -45,7 +45,7 @@ class Deck:
     def show_deck(self) -> None:
         """Shows in console the cards that are on the pit."""
         for card in self.cards:
-            print(card)
+            logger.info(card)
 
     def shuffle(self) -> None:
         """Shuffles the deck of cards"""
