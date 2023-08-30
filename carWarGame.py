@@ -37,6 +37,7 @@ class Deck:
 
     def __init__(self) -> None:
         self.cards = self.generate_deck()
+        self.length = len(self.cards)
 
     def generate_deck(self) -> list:
         """Generates a full deck of cards."""
@@ -52,7 +53,7 @@ class Deck:
         random.shuffle(self.cards)
 
     def __str__(self) -> str:
-        return f"{len(self.cards)}"
+        return self.length
 
 
 class Player:
