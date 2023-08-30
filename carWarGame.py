@@ -52,6 +52,10 @@ class Deck:
         """Shuffles the deck of cards"""
         random.shuffle(self.cards)
 
+    def split(self) -> tuple:
+        """Split cards in two equal parts"""
+        return self.cards[: self.length / 2], self.cards[self.length / 2 :]
+
     def __str__(self) -> str:
         return self.length
 
