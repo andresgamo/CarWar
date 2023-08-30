@@ -54,7 +54,7 @@ class Deck:
 
     def split(self) -> tuple:
         """Split cards in two equal parts"""
-        return self.cards[: self.length / 2], self.cards[self.length / 2 :]
+        return self.cards[: self.length // 2], self.cards[self.length // 2 :]
 
     def __str__(self) -> str:
         return self.length
@@ -88,14 +88,14 @@ def greet_and_start() -> bool:
 
     options = {"1": True, "2": False}
 
-    print("Welcome to CarWar game... Rise your bets!")
+    logger.info("Welcome to CarWar game... Rise your bets!")
 
     while True:
         opt = input("Select an option:\n1. Start.\n2. Exit.\n").strip()
         if opt in options:
             return options[opt]
         else:
-            print("Please enter valid option.")
+            logger.info("Please enter valid option.")
 
 
 def get_users_name() -> list:
@@ -109,7 +109,7 @@ def get_users_name() -> list:
                 players_name.append(player_name)
                 break
             else:
-                print("Please enter valid name (alphanum only).")
+                logger.info("Please enter valid name (alphanum only).")
 
     return players_name
 
@@ -119,27 +119,10 @@ if __name__ == "__main__":
     if start:
         p1_name, p2_name = get_users_name()
         deck = Deck()
-        player1, player2 = deal_and_player_instantiation(p1_name, p2_name, deck)
-        print(player1, player2)
+        deck.shuffle()
+        stack1, stack2 = deck.split()
+        player1 = Player(p1_name, stack1)
+        player2 = Player(p2_name, stack2)
+        logger.info(player1, player2)
     else:
-        print("Hope to see you soon.")
-
-    # options = ['1','2']
-    # while True:
-    #     opt = input('Select an option:\n1. Enter name.\n2. Exit Game.')
-    #     if opt in options:
-    #         player1, player2 = ask_user_names()
-    #         break
-    #     else:
-    #         print('Please enter valid option.')
-
-    # deck = Deck()
-    # deck.shuffle()
-    # player1 = Player('player1',deck.cards[:int(len(deck.cards)/2)])
-    # player2 = Player('player2',deck.cards[int(len(deck.cards)/2):])
-    # player1.showDeck()
-    # print(len(player1.cards))
-    # print('\n')
-    # player1.addCards([player1.bet()])
-    # player1.showDeck()
-    # print(len(player1.cards))
+        logger.info("Hope to see you soon.")
