@@ -114,17 +114,6 @@ def get_users_name() -> list:
     return players_name
 
 
-def deal_and_player_instantiation(
-    p1_name: str, p2_name: str, deck: Card
-) -> tuple[Player, Player]:
-    """Instantiate class players and deal cards from deck."""
-    deck.shuffle()
-    half_deck = int(len(deck.cards) / 2)
-    return Player(p1_name, deck.cards[:half_deck]), Player(
-        p2_name, deck.cards[half_deck:]
-    )
-
-
 if __name__ == "__main__":
     start = greet_and_start()
     if start:
