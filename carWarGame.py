@@ -64,6 +64,7 @@ class Player:
     def __init__(self, name, cards):
         self.name = name
         self.cards = cards
+        self.cards_length = len(self.cards)
 
     def show_deck(self) -> None:
         """Displays all player's hand in console."""
@@ -123,6 +124,5 @@ if __name__ == "__main__":
         stack1, stack2 = deck.split()
         player1 = Player(p1_name, stack1)
         player2 = Player(p2_name, stack2)
-        logger.info(player1, player2)
     else:
         logger.info("Hope to see you soon.")
