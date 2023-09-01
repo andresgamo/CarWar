@@ -103,7 +103,7 @@ def get_users_name() -> list:
     """Display message asking for user's name."""
     players_name = []
 
-    for player in range(1, 3):
+    for player in [1,2]:
         while True:
             player_name = input(f"Player{player}, enter name (alphanum only): ")
             if player_name.isalnum():
