@@ -81,7 +81,7 @@ class Player:
             self.cards.append(card)
 
     def __str__(self) -> str:
-        return f"{self.name.capitalize()} has {len(self.cards)} cards."
+        return f"{self.name.capitalize()} has {self.cards_length} cards."
 
 
 def greet_and_start() -> bool:
