@@ -115,6 +115,11 @@ def get_users_name() -> list:
     return players_name
 
 
+def players_bet() -> list:
+    """Returns each players top card"""
+    return [player1.bet(), player2.bet()]
+
+
 if __name__ == "__main__":
     start = greet_and_start()
     if start:
