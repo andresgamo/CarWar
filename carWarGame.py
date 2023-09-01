@@ -81,7 +81,7 @@ class Player:
             self.cards.append(card)
 
     def __str__(self) -> str:
-        return f"{self.name.capitalize()} has {len(self.cards)} cards."
+        return f"{self.name.capitalize()} has {self.cards_length} cards."
 
 
 def greet_and_start() -> bool:
@@ -103,7 +103,7 @@ def get_users_name() -> list:
     """Display message asking for user's name."""
     players_name = []
 
-    for player in range(1, 3):
+    for player in [1, 2]:
         while True:
             player_name = input(f"Player{player}, enter name (alphanum only): ")
             if player_name.isalnum():
