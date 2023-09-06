@@ -100,7 +100,7 @@ def greet_and_start() -> bool:
         if opt in options:
             return options[opt]
         else:
-            logger.info("Please enter valid option.")
+            logger.warning("Please enter valid option.")
 
 
 def get_users_name() -> list:
@@ -114,7 +114,7 @@ def get_users_name() -> list:
                 players_name.append(player_name)
                 break
             else:
-                logger.info("Please enter valid name (alphanum only).")
+                logger.warning("Please enter valid name (alphanum only).")
 
     return players_name
 
