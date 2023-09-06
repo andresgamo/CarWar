@@ -37,7 +37,6 @@ class Deck:
 
     def __init__(self) -> None:
         self.cards = self.generate_deck()
-        self.length = len(self.cards)
 
     def generate_deck(self) -> list:
         """Generates a full deck of cards."""
@@ -64,7 +63,6 @@ class Player:
     def __init__(self, name, cards):
         self.name = name
         self.cards = cards
-        self.cards_length = len(self.cards)
 
     def show_deck(self) -> None:
         """Displays all player's hand in console."""
