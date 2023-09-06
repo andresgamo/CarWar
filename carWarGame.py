@@ -56,7 +56,10 @@ class Deck:
         return self.cards[: self.length // 2], self.cards[self.length // 2 :]
 
     def __str__(self) -> str:
-        return self.length
+        return f'{len(self)}'
+
+    def __len__(self) -> int:
+        return len(self.cards)
 
 
 class Player:
@@ -79,7 +82,10 @@ class Player:
             self.cards.append(card)
 
     def __str__(self) -> str:
-        return f"{self.name.capitalize()} has {self.cards_length} cards."
+        return f"{self.name.capitalize()} has {len(self)} cards."
+
+    def __len__(self) -> int:
+        return len(self.cards)
 
 
 def greet_and_start() -> bool:
