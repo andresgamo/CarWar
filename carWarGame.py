@@ -88,6 +88,43 @@ class Player:
         return len(self.cards)
 
 
+class Game:
+    def __init__(self) -> None:
+        self.players = self.get_num_players()
+        self.players_name = self.get_users_name()
+
+    def get_num_players(self) -> list:
+        """Display message asking for the num of players from 1 to 4."""
+        game_players = ["1", "2", "3", "4"]
+        while True:
+            players = input("Please enter number of players (1-4): ").strip()
+            if players.isdigit() and players in game_players:
+                return game_players[: int(players)]
+            else:
+                logger.warning("Please enter valid number of players")
+
+    def get_users_name(self) -> list:
+        """Display message asking for user's name."""
+        players_name = []
+
+        for player in self.players:
+            while True:
+                player_name = input(f"Player{player}, enter name (alphanum only): ")
+                if player_name.isalnum():
+                    players_name.append(player_name)
+                    break
+                else:
+                    logger.warning("Please enter valid name (alphanum only).")
+
+        return players_name
+
+    def __len__(self):
+        return len(self.players)
+
+    def __str__(self) -> str:
+        return f"There are {len(self)} players in the game."
+
+
 def greet_and_start() -> bool:
     """Diplay welcome message to players and ask whether want to start or exit."""
 
@@ -103,40 +140,14 @@ def greet_and_start() -> bool:
             logger.warning("Please enter valid option.")
 
 
-def get_users_name() -> list:
-    """Display message asking for user's name."""
-    players_name = []
-
-    for player in [1, 2]:
-        while True:
-            player_name = input(f"Player{player}, enter name (alphanum only): ")
-            if player_name.isalnum():
-                players_name.append(player_name)
-                break
-            else:
-                logger.warning("Please enter valid name (alphanum only).")
-
-    return players_name
-
-
-def get_num_players() -> list:
-    """Display message asking for the num of players from 1 to 4."""
-    game_players = ["1", "2", "3", "4"]
-    while True:
-        players = input("Please enter number of players (1-4): ").strip()
-        if players.isdigit() and players in game_players:
-            return game_players[: int(players)]
-        else:
-            logger.warning("Please enter valid number of players")
-
-
 if __name__ == "__main__":
     start = greet_and_start()
     if start:
-        num_players = get_num_players()
+        game = Game()
+    #     num_players = get_num_players()
     #     players_name = get_users_name()
     #     deck = Deck()
-    #     deck.shuffle() 
+    #     deck.shuffle()
     #     stack1, stack2 = deck.split()
     #     player1 = Player(p1_name, stack1)
     #     player2 = Player(p2_name, stack2)
