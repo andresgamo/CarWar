@@ -56,7 +56,7 @@ class Deck:
         return self.cards[: self.length // 2], self.cards[self.length // 2 :]
 
     def __str__(self) -> str:
-        return f'{len(self)}'
+        return f"{len(self)}"
 
     def __len__(self) -> int:
         return len(self.cards)
@@ -119,14 +119,26 @@ def get_users_name() -> list:
     return players_name
 
 
+def get_num_players() -> list:
+    """Display message asking for the num of players from 1 to 4."""
+    game_players = ["1", "2", "3", "4"]
+    while True:
+        players = input("Please enter number of players (1-4): ").strip()
+        if players.isdigit() and players in game_players:
+            return game_players[: int(players)]
+        else:
+            logger.warning("Please enter valid number of players")
+
+
 if __name__ == "__main__":
     start = greet_and_start()
     if start:
-        p1_name, p2_name = get_users_name()
-        deck = Deck()
-        deck.shuffle()
-        stack1, stack2 = deck.split()
-        player1 = Player(p1_name, stack1)
-        player2 = Player(p2_name, stack2)
-    else:
-        logger.info("Hope to see you soon.")
+        num_players = get_num_players()
+    #     players_name = get_users_name()
+    #     deck = Deck()
+    #     deck.shuffle() 
+    #     stack1, stack2 = deck.split()
+    #     player1 = Player(p1_name, stack1)
+    #     player2 = Player(p2_name, stack2)
+    # else:
+    #     logger.info("Hope to see you soon.")
