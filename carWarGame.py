@@ -81,7 +81,7 @@ class Player:
             self.cards.append(card)
 
     def __str__(self) -> str:
-        return f"{self.name.capitalize()} has {self.cards_length} cards."
+        return f"{self.name.capitalize()} has {len(self.cards)} cards."
 
 
 def greet_and_start() -> bool:
@@ -129,5 +129,22 @@ if __name__ == "__main__":
         stack1, stack2 = deck.split()
         player1 = Player(p1_name, stack1)
         player2 = Player(p2_name, stack2)
+        pit = []
+        while len(player1.cards) > 10 and len(player2.cards) >10:
+            p1_bet, p2_bet = players_bet()
+            pit.extend([p1_bet, p2_bet])
+            list(map(logger.debug, pit[-2::]))
+            if p1_bet.value == p2_bet.value:
+                logger.info("War")
+            elif p1_bet.value > p2_bet.value:
+                player1.add_cards(pit)
+                pit.clear()
+                logger.info("\n%s won.\n%s", player1.name, player1)
+            else:
+                player2.add_cards(pit)
+                pit.clear()
+                logger.info("\n%s won.\n%s", player2.name, player2)
+            input("Hit enter to continue.")
+        logger.info("Winner: %s", player1 if len(player1.cards) > 24 else player2)
     else:
         logger.info("Hope to see you soon.")
