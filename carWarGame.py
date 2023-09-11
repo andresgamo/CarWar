@@ -121,7 +121,7 @@ class Game:
         return len(self.num_players)
 
     def __str__(self) -> str:
-        return f"There are {len(self)} players in the game."
+        return f"There are {self.num_players} players in the game."
 
 
 def greet_and_start() -> bool:
