@@ -97,7 +97,7 @@ class Game:
         """Display message asking for the num of players from 1 to 4."""
         while True:
             num_players = input("Please enter number of players (1-4): ").strip()
-            if num_players.isdigit() and num_players in ['1', '2', '3', '4']:
+            if num_players.isdigit() and num_players in ["1", "2", "3", "4"]:
                 return int(num_players)
             else:
                 logger.warning("Please enter valid number of players")
@@ -106,7 +106,7 @@ class Game:
         """Display message asking for user's name."""
         players_name = []
 
-        for player in self.num_players:
+        for player in range(1, self.num_players + 1):
             while True:
                 player_name = input(f"Player{player}, enter name (alphanum only): ")
                 if player_name.isalnum():
