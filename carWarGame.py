@@ -93,13 +93,12 @@ class Game:
         self.num_players = self.get_num_players()
         self.players_name = self.get_users_name()
 
-    def get_num_players(self) -> list:
+    def get_num_players(self) -> int:
         """Display message asking for the num of players from 1 to 4."""
-        game_players = ["1", "2", "3", "4"]
         while True:
-            players = input("Please enter number of players (1-4): ").strip()
-            if players.isdigit() and players in game_players:
-                return game_players[: int(players)]
+            num_players = input("Please enter number of players (1-4): ").strip()
+            if num_players.isdigit() and num_players in ['1', '2', '3', '4']:
+                return int(num_players)
             else:
                 logger.warning("Please enter valid number of players")
 
