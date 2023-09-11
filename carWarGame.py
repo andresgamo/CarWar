@@ -90,7 +90,7 @@ class Player:
 
 class Game:
     def __init__(self) -> None:
-        self.players = self.get_num_players()
+        self.num_players = self.get_num_players()
         self.players_name = self.get_users_name()
 
     def get_num_players(self) -> list:
@@ -107,7 +107,7 @@ class Game:
         """Display message asking for user's name."""
         players_name = []
 
-        for player in self.players:
+        for player in self.num_players:
             while True:
                 player_name = input(f"Player{player}, enter name (alphanum only): ")
                 if player_name.isalnum():
@@ -119,7 +119,7 @@ class Game:
         return players_name
 
     def __len__(self):
-        return len(self.players)
+        return len(self.num_players)
 
     def __str__(self) -> str:
         return f"There are {len(self)} players in the game."
