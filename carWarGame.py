@@ -1,5 +1,6 @@
 import random
 import logging
+import time
 
 logging.basicConfig(level=logging.NOTSET)
 logger = logging.getLogger(__file__)
@@ -37,7 +38,6 @@ class Deck:
 
     def __init__(self) -> None:
         self.cards = self.generate_deck()
-        self.length = len(self.cards)
 
     def generate_deck(self) -> list:
         """Generates a full deck of cards."""
@@ -52,19 +52,26 @@ class Deck:
         """Shuffles the deck of cards"""
         random.shuffle(self.cards)
 
-    def split(self) -> tuple:
+    def split(self, num_players) -> tuple[Card]:
         """Split cards in two equal parts"""
-        return self.cards[: self.length // 2], self.cards[self.length // 2 :]
+        hands = []
+        hand_size = len(self.cards) // num_players
+        for _ in range(num_players):
+            hands.append(self.cards[:hand_size])
+            del self.cards[:hand_size]
+        return hands
 
     def __str__(self) -> str:
-        return self.length
+        return f"{len(self)}"
+
+    def __len__(self) -> int:
+        return len(self.cards)
 
 
 class Player:
     def __init__(self, name, cards):
         self.name = name
-        self.cards = cards
-        self.cards_length = len(self.cards)
+        self.cards: list[Card] = cards
 
     def show_deck(self) -> None:
         """Displays all player's hand in console."""
@@ -81,7 +88,59 @@ class Player:
             self.cards.append(card)
 
     def __str__(self) -> str:
-        return f"{self.name.capitalize()} has {len(self.cards)} cards."
+        return f"{self.name.capitalize()} has {len(self)} cards."
+
+    def __len__(self) -> int:
+        return len(self.cards)
+
+
+class Game:
+    def __init__(self) -> None:
+        self.num_players = self.get_num_players()
+        self.players_name = self.get_users_name()
+        logger.info("\nGame is above to start!")
+        time.sleep(3)
+        self.deck = Deck()
+        self.players_hand = self.deck.split(self.num_players)
+        self.players = self.create_players()
+
+    def get_num_players(self) -> int:
+        """Display message asking for the num of players from 2 to 4."""
+        while True:
+            num_players = input("Please enter number of players (2-4): ").strip()
+            if num_players.isdigit() and num_players in ["2", "3", "4"]:
+                return int(num_players)
+            else:
+                logger.warning("Please enter valid number of players")
+
+    def get_users_name(self) -> list[str]:
+        """Display message asking for user's name."""
+        players_name = []
+
+        for player in range(1, self.num_players + 1):
+            while True:
+                player_name = input(f"Player{player}, enter name (alphanum only): ")
+                if player_name.isalnum():
+                    players_name.append(player_name)
+                    break
+                else:
+                    logger.warning("Please enter valid name (alphanum only).")
+
+        return players_name
+
+    def create_players(self) -> list[Player]:
+        """Instaciate players"""
+        return [
+            Player(name, cards)
+            for name, cards in zip(self.players_name, self.players_hand)
+        ]
+
+    def __len__(self):
+        return self.num_players
+
+    def __str__(self) -> str:
+        players_str = "\n".join(map(str, self.players))
+        return f"There are {self.num_players} players in the game:\n{players_str}"
 
 
 def greet_and_start() -> bool:
@@ -96,55 +155,28 @@ def greet_and_start() -> bool:
         if opt in options:
             return options[opt]
         else:
-            logger.info("Please enter valid option.")
+            logger.warning("Please enter valid option.")
 
 
-def get_users_name() -> list:
-    """Display message asking for user's name."""
-    players_name = []
-
-    for player in [1, 2]:
-        while True:
-            player_name = input(f"Player{player}, enter name (alphanum only): ")
-            if player_name.isalnum():
-                players_name.append(player_name)
-                break
-            else:
-                logger.info("Please enter valid name (alphanum only).")
-
-    return players_name
-
-
-def players_bet() -> list:
-    """Returns each players top card"""
-    return [player1.bet(), player2.bet()]
+def play() -> None:
+    """Encloses the whole game program"""
+    start = greet_and_start()
+    if start:
+        game = Game()
+        logger.info("\n%s", game)
+    else:
+        logger.info("Hope to see you soon.")
 
 
 if __name__ == "__main__":
-    start = greet_and_start()
-    if start:
-        p1_name, p2_name = get_users_name()
-        deck = Deck()
-        deck.shuffle()
-        stack1, stack2 = deck.split()
-        player1 = Player(p1_name, stack1)
-        player2 = Player(p2_name, stack2)
-        pit = []
-        while len(player1.cards) > 10 and len(player2.cards) >10:
-            p1_bet, p2_bet = players_bet()
-            pit.extend([p1_bet, p2_bet])
-            list(map(logger.debug, pit[-2::]))
-            if p1_bet.value == p2_bet.value:
-                logger.info("War")
-            elif p1_bet.value > p2_bet.value:
-                player1.add_cards(pit)
-                pit.clear()
-                logger.info("\n%s won.\n%s", player1.name, player1)
-            else:
-                player2.add_cards(pit)
-                pit.clear()
-                logger.info("\n%s won.\n%s", player2.name, player2)
-            input("Hit enter to continue.")
-        logger.info("Winner: %s", player1 if len(player1.cards) > 24 else player2)
-    else:
-        logger.info("Hope to see you soon.")
+    play()
+
+    #     num_players = get_num_players()
+    #     players_name = get_users_name()
+    #     deck = Deck()
+    #     deck.shuffle()
+    #     stack1, stack2 = deck.split()
+    #     player1 = Player(p1_name, stack1)
+    #     player2 = Player(p2_name, stack2)
+    # else:
+    #     logger.info("Hope to see you soon.")
