@@ -135,6 +135,13 @@ class Game:
             for name, cards in zip(self.players_name, self.players_hand)
         ]
 
+    def end(self) -> bool:
+        """Eval if any player win."""
+        if self.num_players == 3:
+            return any(len(player) == 55 for player in self.players)
+        else:
+            return any(len(player) == 56 for player in self.players)
+
     def __len__(self):
         return self.num_players
 
@@ -163,7 +170,8 @@ def play() -> None:
     start = greet_and_start()
     if start:
         game = Game()
-        logger.info("\n%s", game)
+        while not game.end():
+            pass
     else:
         logger.info("Hope to see you soon.")
 
