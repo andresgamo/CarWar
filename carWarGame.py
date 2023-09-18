@@ -72,7 +72,7 @@ class Player:
     def __init__(self, name, cards):
         self.name = name
         self.cards: list[Card] = cards
-        self.current_bet: None | Card = None  # Have to upgrade Python version
+        self.current_bet: None | Card = None
 
     def show_deck(self) -> None:
         """Displays all player's hand in console."""
@@ -157,27 +157,39 @@ class Game:
 
     def is_war(self) -> bool:
         """Eval condition of war"""
-        current_bets = self.get_current_bets()
-        return current_bets.count(self.get_highest_bet()) > 1
+        # current_bets = self.get_current_bets()
+        # return current_bets.count(self.get_highest_bet()) > 1
+        return isinstance(self.get_highest_bet_player(), list)
 
     def add_winner_cards(self, pit: list[Card]) -> Player:
-        """Add cards to winner's hand"""
+        """Add cards to winner's hand and return the winner"""
         winner = self.get_highest_bet_player()
         winner.add_cards(pit)
-        logger.info(winner)
+        return winner
 
-    def get_current_bets(self) -> list[int]:
-        """Return players current bet value"""
-        return [player.current_bet.value for player in self.players]
+    # def get_current_bets(self) -> list[int]:
+    #     """Return players current bet value"""
+    #     return [player.current_bet.value for player in self.players]
 
     def get_highest_bet(self) -> Card:
         """Return the value of the highest card from players current bets"""
-        player = self.get_highest_bet_player()
-        return player.current_bet.value
+        # player = self.get_highest_bet_player()
+        # return player.current_bet.value
+        return max(player.current_bet.value for player in self.players)
 
-    def get_highest_bet_player(self) -> Player:
-        """Return the player with highest bets"""
-        return max(self.players, key=lambda player: player.current_bet.value)
+    def get_highest_bet_player(self) -> Player | list[Player]:
+        """Return the player with the highest bet.
+        In case of concurrency return all players within the condition."""
+        # highest_bet = max(self.players, key=lambda player: player.current_bet.value)
+        highest_bet = self.get_highest_bet()
+        highest_bet_players = [
+            player for player in self.players if highest_bet == player.current_bet.value
+        ]
+        return (
+            highest_bet_players
+            if len(highest_bet_players) > 1
+            else highest_bet_players[0]
+        )
 
     def __len__(self):
         return self.num_players
@@ -207,14 +219,16 @@ def play() -> None:
     start = greet_and_start()
     if start:
         game = Game()
+        pit = []
         while not game.end():
-            pit = game.bet()
+            pit.extend(game.bet())
             game.show_bets()
-            list(map(print, [card.value for card in pit]))
             if game.is_war():
-                print("War")
+                print(game.get_highest_bet_player())
             else:
-                game.add_winner_cards(pit)
+                logger.info(game.add_winner_cards(pit))
+                winner = game.get_highest_bet_player()
+                winner.show_deck()
                 break
             break
     else:
