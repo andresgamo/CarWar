@@ -55,7 +55,7 @@ class Deck:
     def split(self, num_players) -> tuple[Card]:
         """Split cards in two equal parts"""
         hands = []
-        hand_size = len(self.cards) // num_players
+        hand_size = len(self) // num_players
         for _ in range(num_players):
             hands.append(self.cards[:hand_size])
             del self.cards[:hand_size]
@@ -72,6 +72,7 @@ class Player:
     def __init__(self, name, cards):
         self.name = name
         self.cards: list[Card] = cards
+        self.current_bet: None | Card = None  # Have to upgrade Python version
 
     def show_deck(self) -> None:
         """Displays all player's hand in console."""
@@ -80,7 +81,8 @@ class Player:
 
     def bet(self) -> Card:
         """Remove the top card from player's hand and return it"""
-        return self.cards.pop(0)
+        self.current_bet = self.cards.pop(0)
+        return self.current_bet
 
     def add_cards(self, cards_pit: list) -> None:
         """Add cards from pit to the bottom of the player's hand"""
@@ -101,8 +103,10 @@ class Game:
         logger.info("\nGame is above to start!")
         time.sleep(3)
         self.deck = Deck()
+        self.deck.shuffle()
         self.players_hand = self.deck.split(self.num_players)
         self.players = self.create_players()
+        logger.info(self)
 
     def get_num_players(self) -> int:
         """Display message asking for the num of players from 2 to 4."""
@@ -135,12 +139,45 @@ class Game:
             for name, cards in zip(self.players_name, self.players_hand)
         ]
 
+    def bet(self) -> list[Card]:
+        """Return current players bet"""
+        return [player.bet() for player in self.players]
+
     def end(self) -> bool:
         """Eval if any player win."""
         if self.num_players == 3:
             return any(len(player) == 55 for player in self.players)
         else:
             return any(len(player) == 56 for player in self.players)
+
+    def show_bets(self) -> None:
+        """Displays players bets"""
+        for player in self.players:
+            logger.info("%s - %s", player.name, player.current_bet)
+
+    def is_war(self) -> bool:
+        """Eval condition of war"""
+        current_bets = self.get_current_bets()
+        return current_bets.count(self.get_highest_bet()) > 1
+
+    def add_winner_cards(self, pit: list[Card]) -> Player:
+        """Add cards to winner's hand"""
+        winner = self.get_highest_bet_player()
+        winner.add_cards(pit)
+        logger.info(winner)
+
+    def get_current_bets(self) -> list[int]:
+        """Return players current bet value"""
+        return [player.current_bet.value for player in self.players]
+
+    def get_highest_bet(self) -> Card:
+        """Return the value of the highest card from players current bets"""
+        player = self.get_highest_bet_player()
+        return player.current_bet.value
+
+    def get_highest_bet_player(self) -> Player:
+        """Return the player with highest bets"""
+        return max(self.players, key=lambda player: player.current_bet.value)
 
     def __len__(self):
         return self.num_players
@@ -171,20 +208,18 @@ def play() -> None:
     if start:
         game = Game()
         while not game.end():
-            pass
+            pit = game.bet()
+            game.show_bets()
+            list(map(print, [card.value for card in pit]))
+            if game.is_war():
+                print("War")
+            else:
+                game.add_winner_cards(pit)
+                break
+            break
     else:
         logger.info("Hope to see you soon.")
 
 
 if __name__ == "__main__":
     play()
-
-    #     num_players = get_num_players()
-    #     players_name = get_users_name()
-    #     deck = Deck()
-    #     deck.shuffle()
-    #     stack1, stack2 = deck.split()
-    #     player1 = Player(p1_name, stack1)
-    #     player2 = Player(p2_name, stack2)
-    # else:
-    #     logger.info("Hope to see you soon.")
