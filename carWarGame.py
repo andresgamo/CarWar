@@ -105,10 +105,10 @@ class Game:
         self.players = self.create_players()
 
     def get_num_players(self) -> int:
-        """Display message asking for the num of players from 1 to 4."""
+        """Display message asking for the num of players from 2 to 4."""
         while True:
-            num_players = input("Please enter number of players (1-4): ").strip()
-            if num_players.isdigit() and num_players in ["1", "2", "3", "4"]:
+            num_players = input("Please enter number of players (2-4): ").strip()
+            if num_players.isdigit() and num_players in ["2", "3", "4"]:
                 return int(num_players)
             else:
                 logger.warning("Please enter valid number of players")
