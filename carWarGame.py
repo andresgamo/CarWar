@@ -106,6 +106,8 @@ class Game:
         self.deck.shuffle()
         self.players_hand = self.deck.split(self.num_players)
         self.players = self.create_players()
+        self.active_players = self.players
+        self.pit = []
         logger.info(self)
 
     def get_num_players(self) -> int:
@@ -141,7 +143,11 @@ class Game:
 
     def bet(self) -> list[Card]:
         """Return current players bet"""
-        return [player.bet() for player in self.players]
+        return [player.bet() for player in self.active_players]
+
+    def add_to_pit(self, cards: list[Card]) -> None:
+        """Add cards to pit"""
+        self.pit.extend(cards)
 
     def end(self) -> bool:
         """Eval if any player win."""
@@ -152,7 +158,7 @@ class Game:
 
     def show_bets(self) -> None:
         """Displays players bets"""
-        for player in self.players:
+        for player in self.active_players:
             logger.info("%s - %s", player.name, player.current_bet)
 
     def is_war(self) -> bool:
@@ -161,10 +167,10 @@ class Game:
         # return current_bets.count(self.get_highest_bet()) > 1
         return isinstance(self.get_highest_bet_player(), list)
 
-    def add_winner_cards(self, pit: list[Card]) -> Player:
+    def add_winner_cards(self) -> Player:
         """Add cards to winner's hand and return the winner"""
         winner = self.get_highest_bet_player()
-        winner.add_cards(pit)
+        winner.add_cards(self.pit)
         return winner
 
     # def get_current_bets(self) -> list[int]:
@@ -175,7 +181,7 @@ class Game:
         """Return the value of the highest card from players current bets"""
         # player = self.get_highest_bet_player()
         # return player.current_bet.value
-        return max(player.current_bet.value for player in self.players)
+        return max(player.current_bet.value for player in self.active_players)
 
     def get_highest_bet_player(self) -> Player | list[Player]:
         """Return the player with the highest bet.
@@ -183,13 +189,20 @@ class Game:
         # highest_bet = max(self.players, key=lambda player: player.current_bet.value)
         highest_bet = self.get_highest_bet()
         highest_bet_players = [
-            player for player in self.players if highest_bet == player.current_bet.value
+            player
+            for player in self.active_players
+            if highest_bet == player.current_bet.value
         ]
         return (
             highest_bet_players
             if len(highest_bet_players) > 1
             else highest_bet_players[0]
         )
+
+    def update_active_players(self) -> None:
+        """Update the self.active_players attribute with the players
+        who still have cards in their hand."""
+        self.active_players = [player for player in self.players if len(player) > 0]
 
     def __len__(self):
         return self.num_players
@@ -219,18 +232,18 @@ def play() -> None:
     start = greet_and_start()
     if start:
         game = Game()
-        pit = []
         while not game.end():
-            pit.extend(game.bet())
+            game.add_to_pit(game.bet())
             game.show_bets()
             if game.is_war():
-                print(game.get_highest_bet_player())
+                logger.info('War')
+                game.update_active_players()
             else:
-                logger.info(game.add_winner_cards(pit))
+                logger.info(game.add_winner_cards())
                 winner = game.get_highest_bet_player()
                 winner.show_deck()
-                break
-            break
+                game.update_active_players()
+        logger.info("WINNER!: %s\n%s", game.active_players[0].name, game.active_players[0])
     else:
         logger.info("Hope to see you soon.")
 
