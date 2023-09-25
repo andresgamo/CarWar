@@ -152,9 +152,9 @@ class Game:
     def end(self) -> bool:
         """Eval if any player win."""
         if self.num_players == 3:
-            return any(len(player) == 55 for player in self.players)
+            return any(len(player) >= 35 for player in self.players)
         else:
-            return any(len(player) == 56 for player in self.players)
+            return any(len(player) >= 26 for player in self.players)
 
     def show_bets(self) -> None:
         """Displays players bets"""
@@ -240,10 +240,11 @@ def play() -> None:
                 game.update_active_players()
             else:
                 logger.info(game.add_winner_cards())
+                game.pit = []
                 winner = game.get_highest_bet_player()
                 winner.show_deck()
                 game.update_active_players()
-        logger.info("WINNER!: %s\n%s", game.active_players[0].name, game.active_players[0])
+        logger.info("WINNER!: %s\n%s", winner.name, winner)
     else:
         logger.info("Hope to see you soon.")
 
