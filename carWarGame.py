@@ -202,7 +202,10 @@ class Game:
     def update_active_players(self) -> None:
         """Update the self.active_players attribute with the players
         who still have cards in their hand."""
-        self.active_players = [player for player in self.players if len(player) > 0]
+        if self.is_war():
+            self.active_players = self.get_highest_bet_player()
+        else:
+            self.active_players = [player for player in self.players if len(player) > 0]
 
     def __len__(self):
         return self.num_players
