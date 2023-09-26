@@ -163,8 +163,6 @@ class Game:
 
     def is_war(self) -> bool:
         """Eval condition of war"""
-        # current_bets = self.get_current_bets()
-        # return current_bets.count(self.get_highest_bet()) > 1
         return isinstance(self.get_highest_bet_player(), list)
 
     def add_winner_cards(self) -> Player:
@@ -173,20 +171,13 @@ class Game:
         winner.add_cards(self.pit)
         return winner
 
-    # def get_current_bets(self) -> list[int]:
-    #     """Return players current bet value"""
-    #     return [player.current_bet.value for player in self.players]
-
     def get_highest_bet(self) -> Card:
         """Return the value of the highest card from players current bets"""
-        # player = self.get_highest_bet_player()
-        # return player.current_bet.value
         return max(player.current_bet.value for player in self.active_players)
 
     def get_highest_bet_player(self) -> Player | list[Player]:
         """Return the player with the highest bet.
         In case of concurrency return all players within the condition."""
-        # highest_bet = max(self.players, key=lambda player: player.current_bet.value)
         highest_bet = self.get_highest_bet()
         highest_bet_players = [
             player
@@ -239,7 +230,7 @@ def play() -> None:
             game.add_to_pit(game.bet())
             game.show_bets()
             if game.is_war():
-                logger.info('War')
+                logger.info("War")
                 game.update_active_players()
             else:
                 logger.info(game.add_winner_cards())
