@@ -53,7 +53,7 @@ class Deck:
         random.shuffle(self.cards)
 
     def split(self, num_players) -> tuple[Card]:
-        """Split cards in two equal parts"""
+        """Split cards in equal parts"""
         hands = []
         hand_size = len(self.cards) // num_players
         for _ in range(num_players):
