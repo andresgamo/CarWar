@@ -1,6 +1,6 @@
-# Car War Game in Python 3 with Object-Oriented Programming (OOP)
+# Card War Game in Python 3 with Object-Oriented Programming (OOP)
 
-Welcome to the Car War Game repository! This project is an exciting two-player game implemented in Python 3, where players control virtual cars and engage in a battle to outmaneuver and defeat their opponent.
+Welcome to the Card War Game repository! This project is an exciting two-player game implemented in Python 3, where players control virtual cars and engage in a battle to outmaneuver and defeat their opponent.
 
 ## Table of Contents
 
@@ -11,23 +11,23 @@ Welcome to the Car War Game repository! This project is an exciting two-player g
 
 ## Game Overview
 
-Car War Game is a console-based application that provides an interactive gaming experience. Two players can compete against each other. The objective is to obtain all opponent's cards.
+Card War Game is a console-based application that provides an interactive gaming experience. Two players can compete against each other. The objective is to obtain all opponent's cards.
 
 ## Installation
 
-To run the Car War Game, follow these steps:
+To run the Card War Game, follow these steps:
 
 1. Clone this repository to your local machine:
 
 ```bash 
-git clone https://github.com/andresgamo/carWarGame.git 
-cd carWarGame
+git clone https://github.com/andresgamo/card_war_game.git 
+cd card_war_game
 ```
 
 2. Run the game using Python 3:
 
 ```bash
-python3 main.py
+python card_war_game.py
 ```
 
 ## How to Play
