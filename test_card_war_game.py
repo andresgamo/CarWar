@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 from card_war_game import Card, Deck, Player, Game
 
 
@@ -54,6 +55,7 @@ class testPlayer(unittest.TestCase):
     def setUp(self):
         self.hand = [Card("A", "♠"), Card("2", "♣"), Card("3", "♦"), Card("4", "♥")]
         self.player = Player("user_test", self.hand)
+        self.assertEqual(self.player.current_bet, None)
 
     def test_init(self):
         """Test initialization attributes"""
@@ -72,6 +74,7 @@ class testPlayer(unittest.TestCase):
         """Test bet method"""
         top_card = self.hand[0]
         self.assertEqual(self.player.bet(), top_card)
+        self.assertEqual(self.player.current_bet, top_card)
 
     def test_add_cards(self):
         """Test add_cards method"""
