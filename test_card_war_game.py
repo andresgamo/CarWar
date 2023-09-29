@@ -84,5 +84,21 @@ class testPlayer(unittest.TestCase):
         self.assertEqual(self.player.cards[-1], pit[0])
 
 
+class testGame(unittest.TestCase):
+    @patch("card_war_game.Game.get_users_name")
+    @patch("card_war_game.Game.get_num_players")
+    def setUp(self, mock_num_players, mock_users_name):
+        mock_num_players.return_value = 2
+        mock_users_name.return_value = ["test1", "test2"]
+        self.game = Game()
+
+    def test_init(self):
+        """Test initialization attributes"""
+        self.assertEqual(self.game.num_players, 2)
+        self.assertEqual(self.game.players_name, ["test1", "test2"])
+        self.assertIsInstance(self.game.deck, Deck)
+        self.assertEqual(self.game.deck.cards, None)
+
+
 if __name__ == "__main__":
     unittest.main()
