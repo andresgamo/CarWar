@@ -88,16 +88,21 @@ class testGame(unittest.TestCase):
     @patch("card_war_game.Game.get_users_name")
     @patch("card_war_game.Game.get_num_players")
     def setUp(self, mock_num_players, mock_users_name):
-        mock_num_players.return_value = 2
-        mock_users_name.return_value = ["test1", "test2"]
+        mock_num_players.return_value = 3
+        mock_users_name.return_value = ["test1", "test2", "test3"]
         self.game = Game()
 
     def test_init(self):
         """Test initialization attributes"""
-        self.assertEqual(self.game.num_players, 2)
-        self.assertEqual(self.game.players_name, ["test1", "test2"])
-        self.assertIsInstance(self.game.deck, Deck)
-        self.assertEqual(self.game.deck.cards, None)
+        game = self.game
+        self.assertEqual(game.num_players, 3)
+        self.assertEqual(game.players_name, ["test1", "test2", "test3"])
+        self.assertIsInstance(game.deck, Deck)
+        self.assertIsInstance(game.players_hand, list)
+        self.assertEqual(len(game.players_hand), 3)
+        self.assertTrue(all(len(hand) == 17 for hand in game.players_hand))
+        hands_slice = [[card.value for card in hand[:5]] for hand in game.players_hand]
+        self.assertTrue(all(slice != [2, 3, 4, 5, 6] for slice in hands_slice))
 
 
 if __name__ == "__main__":
